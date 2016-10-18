@@ -3,6 +3,7 @@
 	document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 	var pictureSource;
 	var destinationType;
+	var watchID;
 	function onDeviceReady() {
 		pictureSource = navigator.camera.PictureSourceType;
 		destinationType = navigator.camera.DestinationType;
@@ -15,9 +16,18 @@
 			});
 		}
 		  
-		  
-	
+		document.getElementById("barcode").onclick = function(){
+ 			cordova.plugins.barcodescanner.scan(barcodeSuccess, barcodeError
+		)};
+
+  		document.getElementById("geolocation").onclick = function(){
+  			watchID = navigator.geolocation.watchPosition(onSuccess,
+  		 													onError,
+  		  										{ timeout: 30000,
+  		  										enableHighAccuracy: true });	
+  		}
 	};
+
 	function onPhotoDataSuccess(imageData) {
 
 		var smallImage = document.getElementById('smallImage');
@@ -28,29 +38,37 @@
 
 	}
 
-	function onFail(message) {
+	function onFail(message){
 
 		alert('Failed because: ' + message);
 
 	}
-document.getElementById("barcode").onclick = function barcode(){
- 	cordova.plugins.barcodescanner.scan(
-      	function (result) {
-          alert("We got a barcode\n" +
+	function onSuccess(position){
+		var element = document.getElementById('geolocation');
+		element.innerHTML = 'Latitude: '+position.coords.latitude +
+								'<br/'+
+							'Longitude:' +position.coords.longitude +
+								'<br/'+
+							'<hr />' element.innerHTML;
+	}
+	function onError(error){
+		alert('code:' + error.code +'\n'+
+				'message' +error.message + '\n');
+	}
+	function barcodeSuccess(result) {
+        alert("We got a barcode\n" +
                 "Result: " + result.text + "\n" +
                 "Format: " + result.format + "\n" +
                 "Cancelled: " + result.cancelled);
       }
-      function (error) {
-          alert("Scanning failed: " + error);
+    function barcodeError (error) {
+        alert("Scanning failed: " + error);
       },
       {
-          "preferFrontCamera" : true, // iOS and Android
+          "preferFrontCamera" : false, // iOS and Android
           "showFlipCameraButton" : true, // iOS and Android
           "prompt" : "Place a barcode inside the scan area", // supported on Android only
           "formats" : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED
           "orientation" : "landscape" // Android only (portrait|landscape), default unset so it rotates with the device
       };
-};
-
 })();

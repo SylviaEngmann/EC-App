@@ -16,14 +16,14 @@
 			});
 		}
 		  
-		document.getElementById("barcode").onclick = function(){
- 			cordova.plugins.barcodescanner.scan(barcodeSuccess, barcodeError,
- 				preferFrontCamera: false, // iOS and Android
-          		showFlipCameraButton: true, // iOS and Android
-          		prompt:Place a barcode inside the scan area, // supported on Android only
-          		formats:QR_CODE,PDF_417, // default: all but PDF_417 and RSS_EXPANDED
-          		orientation:landscape; // Android only (portrait|landscape), default unset so it rotates with the device
-		)};
+		// document.getElementById("barcode").onclick = function(){
+ 	// 		cordova.plugins.barcodescanner.scan(barcodeSuccess, barcodeError,
+ 	// 			{preferFrontCamera: false, // iOS and Android
+  //         		showFlipCameraButton: true, // iOS and Android
+  //         		prompt:"Place a barcode inside the scan area" // supported on Android only
+  //         		formats:QR_CODE,PDF_417, // default: all but PDF_417 and RSS_EXPANDED
+  //         		orientation:landscape} // Android only (portrait|landscape), default unset so it rotates with the device
+		// )};
 
   		document.getElementById("geolocationB").onclick = function(){
   			navigator.geolocation.getCurrentPosition(onSuccessPos,
@@ -31,13 +31,13 @@
   														{ timeout: 30000,
   		  										enableHighAccuracy: true });
   		}
-  		document.getElementById("geolocation") = function(){
+  	
   			watchID = navigator.geolocation.watchPosition(onSuccess,
   		 													onError,
   		  										{ timeout: 30000,
   		  										enableHighAccuracy: true });	
-  		}
-  		}
+  		
+  		
 	};
 
 	function onPhotoDataSuccess(imageData) {
